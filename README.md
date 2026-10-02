@@ -136,6 +136,31 @@ npm run preview
 
 ---
 
+## 🐍 Flask Backend & Unified Deployment
+
+You can serve the compiled Vite frontend directly through the Python Flask backend with full client-side SPA routing fallback:
+
+### 1. Install Python Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 2. Build Frontend & Run Flask
+```bash
+npm run build
+python app.py
+```
+The application will be live at `http://localhost:5000` with:
+- Static assets and client-side routes served from `dist/`
+- Health check API at `http://localhost:5000/api/health`
+- Metadata API at `http://localhost:5000/api/info`
+
+### 3. Deploy to Cloud (Render / Railway / Heroku / VPS)
+- **Render**: Connect repository. The included [`render.yaml`](render.yaml) automatically builds both the Vite frontend and Python backend, running `gunicorn app:app`.
+- **Railway / Heroku**: Uses the included [`Procfile`](Procfile) (`web: gunicorn app:app`).
+
+---
+
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 19, TypeScript 6

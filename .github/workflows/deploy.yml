@@ -40,6 +40,19 @@ jobs:
         env:
           VITE_JUDGE0_URL: https://ce.judge0.com
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verify Flask server & SPA routes
+        run: |
+          python -c "import app; client = app.app.test_client(); assert client.get('/api/health').status_code == 200; assert client.get('/').status_code == 200; assert client.get('/compiler').status_code == 200; assert client.get('/api/fake').status_code == 404; print('CI Verification Passed!')"
+
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
