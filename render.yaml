@@ -3,10 +3,8 @@ services:
     name: seto-ai-compiler
     env: python
     buildCommand: "npm install && npm run build && pip install -r requirements.txt"
-    startCommand: "gunicorn app:app"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT --workers 4"
     plan: free
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.11
-      - key: FLASK_ENV
-        value: production

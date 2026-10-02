@@ -136,28 +136,35 @@ npm run preview
 
 ---
 
-## 🐍 Flask Backend & Unified Deployment
+## ⚡ FastAPI Backend & Unified Deployment
 
-You can serve the compiled Vite frontend directly through the Python Flask backend with full client-side SPA routing fallback:
+You can serve the compiled Vite frontend directly through the high-performance Python **FastAPI** ASGI backend with full client-side SPA routing fallback and auto-generated Swagger documentation:
 
 ### 1. Install Python Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Build Frontend & Run Flask
+### 2. Build Frontend & Run FastAPI
 ```bash
 npm run build
-python app.py
+python main.py
 ```
-The application will be live at `http://localhost:5000` with:
-- Static assets and client-side routes served from `dist/`
-- Health check API at `http://localhost:5000/api/health`
-- Metadata API at `http://localhost:5000/api/info`
+Or with Uvicorn live reload:
+```bash
+uvicorn main:app --reload --port 5000
+```
+The application will be live at `http://localhost:5000`:
+- **Web App**: `http://localhost:5000` (serving `dist/` with React SPA fallback routing)
+- **Interactive Swagger Docs**: `http://localhost:5000/docs`
+- **ReDoc**: `http://localhost:5000/redoc`
+- **Health Check API**: `http://localhost:5000/api/health`
+- **Metadata API**: `http://localhost:5000/api/info`
 
-### 3. Deploy to Cloud (Render / Railway / Heroku / VPS)
-- **Render**: Connect repository. The included [`render.yaml`](render.yaml) automatically builds both the Vite frontend and Python backend, running `gunicorn app:app`.
-- **Railway / Heroku**: Uses the included [`Procfile`](Procfile) (`web: gunicorn app:app`).
+### 3. Deploy to Cloud (Render / Railway / Heroku / Vercel / VPS)
+- **Render**: Connect repository. The included [`render.yaml`](render.yaml) automatically builds both the Vite frontend and Python backend, running `uvicorn main:app`.
+- **Railway / Heroku**: Uses the included [`Procfile`](Procfile) (`web: uvicorn main:app --host 0.0.0.0 --port $PORT --workers 4`).
+- **Vercel**: Works out of the box via serverless ASGI [`api/index.py`](api/index.py) and [`vercel.json`](vercel.json).
 
 ---
 

@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "start:flask": "python app.py"
+    "start:fastapi": "python main.py",
+    "start:dev": "uvicorn main:app --reload --port 5000"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
